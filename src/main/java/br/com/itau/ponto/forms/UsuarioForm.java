@@ -23,6 +23,18 @@ public class UsuarioForm {
 	@NotNull @NotEmpty
 	private String dataCadastro;
 	
+	public UsuarioForm() {
+		
+	}
+	
+	public UsuarioForm(String nome, String sobrenome, String cpf, String email, String dataCadastro) {
+		this.nome = nome;
+		this.sobrenome = sobrenome;
+		this.cpf = cpf;
+		this.email = email;
+		this.dataCadastro = dataCadastro;
+	}
+
 	public String getNome() {
 		return nome;
 	}

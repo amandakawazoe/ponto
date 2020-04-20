@@ -1,6 +1,5 @@
 package br.com.itau.ponto.controllers;
 
-import java.net.URI;
 import java.util.List;
 import java.util.Optional;
 
@@ -15,11 +14,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.util.UriComponentsBuilder;
 
 import br.com.itau.ponto.dtos.DetalhesDoUsuarioDto;
 import br.com.itau.ponto.dtos.PontoDto;
-import br.com.itau.ponto.dtos.PontosUsuarioDTO;
+import br.com.itau.ponto.dtos.PontosUsuarioDto;
 import br.com.itau.ponto.dtos.UsuarioDto;
 import br.com.itau.ponto.forms.AlteracaoUsuarioForm;
 import br.com.itau.ponto.forms.UsuarioForm;
@@ -53,12 +51,11 @@ public class UsuarioController {
 	
 	@PostMapping("/usuario")
 	@Transactional
-	public ResponseEntity<UsuarioDto> cadastrar(@RequestBody @Valid UsuarioForm form, UriComponentsBuilder uriBuilder) {
+	public ResponseEntity<UsuarioDto> cadastrar(@RequestBody @Valid UsuarioForm form) {
 		Usuario usuario = form.converter();
 		usuarioRepository.save(usuario);
 		
-		URI uri = uriBuilder.path("/usuarios/{id}").buildAndExpand(usuario.getId()).toUri();
-		return ResponseEntity.created(uri).body(new UsuarioDto(usuario));
+		return ResponseEntity.ok(new UsuarioDto(usuario));
 	}
 	
 	@PutMapping("/usuario/{id}")
@@ -73,11 +70,11 @@ public class UsuarioController {
 	
 
 	@GetMapping("/usuario/{id}/pontos")
-	public ResponseEntity<PontosUsuarioDTO> listar(@PathVariable Long id){
+	public ResponseEntity<PontosUsuarioDto> listarPontos(@PathVariable Long id){
 		Optional<Usuario> optional = usuarioRepository.findById(id);
 		if(optional.isPresent()) {
 			List<PontoDto> pontosDto = PontoDto.converter(pontoRepository.findByUsuarioId(id));
-			return ResponseEntity.ok(new PontosUsuarioDTO(pontosDto, optional.get()));
+			return ResponseEntity.ok(new PontosUsuarioDto(pontosDto, optional.get()));
 		} 
 		return ResponseEntity.notFound().build();
 	}

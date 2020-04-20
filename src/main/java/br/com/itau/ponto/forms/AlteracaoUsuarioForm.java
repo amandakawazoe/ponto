@@ -18,6 +18,18 @@ public class AlteracaoUsuarioForm {
 	private String cpf;
 	@NotNull @NotEmpty
 	private String email;
+	
+	public AlteracaoUsuarioForm() {
+		
+	}
+	
+	public AlteracaoUsuarioForm(String nome, String sobrenome, String cpf, String email) {
+		this.nome = nome;
+		this.sobrenome = sobrenome;
+		this.cpf = cpf;
+		this.email = email;
+	}
+	
 	public String getNome() {
 		return nome;
 	}

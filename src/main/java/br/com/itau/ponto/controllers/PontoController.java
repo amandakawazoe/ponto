@@ -1,6 +1,5 @@
 package br.com.itau.ponto.controllers;
 
-import java.net.URI;
 import java.time.Duration;
 import java.util.Optional;
 
@@ -12,7 +11,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.util.UriComponentsBuilder;
 
 import br.com.itau.ponto.dtos.PontoDto;
 import br.com.itau.ponto.forms.PontoForm;
@@ -33,7 +31,7 @@ public class PontoController {
 	
 	@PostMapping("/ponto")
 	@Transactional
-	public ResponseEntity<PontoDto> registrar(@RequestBody @Valid PontoForm form, UriComponentsBuilder uriBuilder){
+	public ResponseEntity<PontoDto> registrar(@RequestBody @Valid PontoForm form){
 		Optional<Usuario> optional = usuarioRepository.findById(form.getIdUsuario());
 		if(optional.isPresent()) {
 			Usuario usuario = optional.get();
@@ -47,8 +45,7 @@ public class PontoController {
 			}
 			pontoRepository.save(ponto);
 			
-			URI uri = uriBuilder.path("/ponto").buildAndExpand(ponto.getId()).toUri();
-			return ResponseEntity.created(uri).body(new PontoDto(ponto));
+			return ResponseEntity.ok(new PontoDto(ponto));
 		}
 		return ResponseEntity.notFound().build();
 	}

@@ -17,6 +17,15 @@ public class PontoForm {
 	@NotNull @NotEmpty
 	private String dataBatida;
 	
+	public PontoForm() {
+		
+	}
+	
+	public PontoForm(Long idUsuario, String dataBatida) {
+		this.idUsuario = idUsuario;
+		this.dataBatida = dataBatida;
+	}
+	
 	public Long getIdUsuario() {
 		return idUsuario;
 	}
